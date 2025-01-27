@@ -1,0 +1,30 @@
+app:
+  name: node-microservice-one
+  port: 5000
+  image:
+    repository: docker.io/darksueii/node-microservice
+    tag: latest
+    pullPolicy: Always
+  replicas: 1
+  namespace: microservices
+
+dapr:
+  appId: node-microservice-one
+  appPort: 5000
+  enableMetrics: true
+  enabled: true
+  metricsPort: 9099
+  sidecarListenAddresses: 0.0.0.0
+
+configmap:
+  name: node-microservice-one-config
+  data:
+
+secret:
+  name: node-microservice-one-secret
+  data:
+    EXT_SERVICE_APP_ID: node-microservice-two
+
+service:
+  type: ClusterIP
+  protocol: TCP

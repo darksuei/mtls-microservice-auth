@@ -6,12 +6,15 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "start:dapr:dev": "dapr run --app-port 5000 --dapr-http-port 3500 --app-id node-microservice --resources-path ../dapr/components -- npm run dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@dapr/dapr": "^3.4.1",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2"
   },
   "devDependencies": {
