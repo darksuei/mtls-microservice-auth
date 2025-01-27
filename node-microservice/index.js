@@ -21,6 +21,7 @@ const daprServer = new DaprServer({
 
 daprServer.start().then(() => {
   console.log(`Server started on ${APP_HOST}:${APP_PORT}`);
+  console.log(`Api token: ${process.env.DAPR_API_TOKEN}`);
 });
 
 const daprClient = new DaprClient({ daprHost: DAPR_HOST, daprPort: DAPR_PORT });

@@ -10,6 +10,7 @@ app:
 
 dapr:
   appId: node-microservice-two
+  apiTokenSecret: "dapr-api-token"
   appPort: 5000
   enableMetrics: true
   enabled: true
@@ -24,6 +25,7 @@ secret:
   name: node-microservice-two-secret
   data:
     EXT_SERVICE_APP_ID: node-microservice-one
+    DAPR_API_TOKEN: "test_1234"
 
 service:
   type: ClusterIP

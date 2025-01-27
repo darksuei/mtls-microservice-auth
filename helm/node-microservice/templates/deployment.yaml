@@ -16,6 +16,8 @@ spec:
         app: {{ .Values.app.name }}
       annotations:
         dapr.io/app-id: "{{ .Values.dapr.appId }}"
+        dapr.io/api-token-secret: "{{ .Values.dapr.apiTokenSecret }}" # App to Dapr authentication
+        dapr.io/app-token-secret: "{{ .Values.dapr.apiTokenSecret }}" # Dapr to app authentication
         dapr.io/app-port: "{{ .Values.dapr.appPort }}"
         dapr.io/enable-metrics: "{{ .Values.dapr.enableMetrics }}"
         dapr.io/enabled: "{{ .Values.dapr.enabled }}"
