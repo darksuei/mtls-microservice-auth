@@ -110,6 +110,11 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
+"@styra/opa@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@styra/opa/-/opa-1.6.0.tgz#b4329f2c8af167cef43d20a43734035c788cbe2e"
+  integrity sha512-t0fL6MG28X9A6QX1HD3DrqNr0W5eAzqEDaIXd0EQL3P1MtYg4/Lc6i0zvmF6/sT0hw8h8ukwSIAaNbW5BjH57g==
+
 "@types/google-protobuf@^3.15.5":
   version "3.15.12"
   resolved "https://registry.yarnpkg.com/@types/google-protobuf/-/google-protobuf-3.15.12.tgz#eb2ba0eddd65712211a2b455dc6071d665ccf49b"
@@ -1093,3 +1098,8 @@ yargs@^17.7.2:
     string-width "^4.2.3"
     y18n "^5.0.5"
     yargs-parser "^21.1.1"
+
+zod@^3.24.1:
+  version "3.24.1"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.24.1.tgz#27445c912738c8ad1e9de1bea0359fa44d9d35ee"
+  integrity sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==

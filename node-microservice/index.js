@@ -1,7 +1,7 @@
 import express from "express";
 import { DaprServer, DaprClient, HttpMethod } from "@dapr/dapr";
 import dotenv from "dotenv";
-import cors from "cors";
+import { OPAClient } from "@styra/opa";
 
 const app = express();
 
@@ -26,16 +26,18 @@ daprServer.start().then(() => {
 
 const daprClient = new DaprClient({ daprHost: DAPR_HOST, daprPort: DAPR_PORT });
 
-const corsOptions = {
-  origin: "https:suei.dev/", // Allow only Dapr sidecar
-};
+// Note: Middleware for system requests
+async function middleware(req, res, next) {
+  // Note: As opposed to using an sdk, a direct HTTP POST request can be made to OPA for policy checks.
+  const opa = new OPAClient(process.env.OPA_BASE_URL);
 
-function middleware(req, res, next) {
-  // a call to opa to check if the request is allowed
-  if (req.headers["dapr-api-token"] != process.env.DAPR_API_TOKEN) {
-    return res.status(403).json({ message: "Forbidden" });
-  }
-  next();
+  const opa_response = await opa.evaluate(process.env.OPA_DAPR_AUTH_POLICY_PATH, {
+    "dapr-api-token": req.headers["dapr-api-token"],
+  });
+
+  if (!opa_response.allow) return res.status(403).json({ message: "Forbidden" });
+
+  return next();
 }
 
 // ROUTES
@@ -45,29 +47,16 @@ app.get("/health", (_, res) => {
   return res.status(200).json({ message: "Server is up and running" });
 });
 
-app.get("/data", (req, res) => {
-  console.log(`Received headers: ${JSON.stringify(req.headers)}.`);
-  console.log(`Received dapr request for secure data from host: ${req.hostname}.`);
-  return res.status(200).json({ message: "Secure data" });
-});
-
 app.get("/get-data", (_, res) => {
   const ext_app_id = process.env.EXT_SERVICE_APP_ID;
   const ext_method = "system/data";
-
-  console.log(`Calling external service: app-id: ${ext_app_id} method: ${ext_method}.`);
 
   daprClient.invoker.invoke(ext_app_id, ext_method, HttpMethod.GET).then((response) => {
     return res.status(200).json(response);
   });
 });
 
-app.get("/system/data", cors(corsOptions), (req, res) => {
-  // console.log(`Received headers: ${JSON.stringify(req.headers)}.`);
-  // console.log(`Received dapr request for secure data from host: ${req.hostname}.`);
-  return res.status(200).json({ message: "Secure data" });
-});
-
-app.post("/test-uppercase", (req, res) => {
-  return res.json(req.body);
+app.get("/system/data", middleware, (req, res) => {
+  console.log("Received request for secure system data.");
+  return res.status(200).json({ message: "Secure system data" });
 });
