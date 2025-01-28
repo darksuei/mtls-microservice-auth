@@ -1,0 +1,31 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: daprauthpolicy
+spec:
+  type: middleware.http.opa
+  version: v1
+  metadata:
+    - name: includedHeaders
+      value: "dapr-app-id, dapr-api-token, Authorization, host"
+    - name: defaultStatus
+      value: 403
+    - name: rego
+      value: |
+        package http
+
+        import future.keywords.if
+
+        default allow := false
+
+        is_system_route if {
+            regex.match(".*/system/.*", input.request.path)
+        }
+
+        allow if {
+            not is_system_route
+        }
+
+        allow if {
+          input.request["dapr-api-token"] = "1234"
+        }

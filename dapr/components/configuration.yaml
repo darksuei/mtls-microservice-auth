@@ -1,0 +1,13 @@
+apiVersion: dapr.io/v1alpha1
+kind: Configuration
+metadata:
+  name: appconfig
+spec:
+  httpPipeline:
+    handlers:
+      - name: daprauthpolicy
+        type: middleware.http.opa
+  appHttpPipeline:
+    handlers:
+      - name: daprauthpolicy
+        type: middleware.http.opa

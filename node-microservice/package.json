@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "start:dapr:dev": "dapr run --app-port 5000 --dapr-http-port 3500 --app-id node-microservice --resources-path ../dapr/components -- npm run dev"
+    "start:dapr:dev": "dapr run --app-port 5000 --dapr-http-port 3500 --app-id node-microservice --resources-path ../dapr/components --config ../dapr/components/configuration.yaml -- npm run dev"
   },
   "keywords": [],
   "author": "",
