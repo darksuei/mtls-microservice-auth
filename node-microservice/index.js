@@ -4,12 +4,10 @@ import dotenv from "dotenv";
 import { OPAClient } from "@styra/opa";
 
 const app = express();
-
 dotenv.config();
 
 const APP_HOST = "0.0.0.0";
 const APP_PORT = 5000;
-
 const DAPR_HOST = "0.0.0.0";
 const DAPR_PORT = 3500;
 
@@ -43,20 +41,17 @@ async function middleware(req, res, next) {
 // ROUTES
 
 app.get("/health", (_, res) => {
-  console.log("Received health check request.");
   return res.status(200).json({ message: "Server is up and running" });
 });
 
 app.get("/get-data", (_, res) => {
-  const ext_app_id = process.env.EXT_SERVICE_APP_ID;
-  const ext_method = "system/data";
-
-  daprClient.invoker.invoke(ext_app_id, ext_method, HttpMethod.GET).then((response) => {
-    return res.status(200).json(response);
-  });
+  daprClient.invoker
+    .invoke(process.env.EXT_SERVICE_APP_ID, "system/data", HttpMethod.GET)
+    .then((response) => {
+      return res.status(200).json(response);
+    });
 });
 
-app.get("/system/data", middleware, (req, res) => {
-  console.log("Received request for secure system data.");
+app.get("/system/data", middleware, (_, res) => {
   return res.status(200).json({ message: "Secure system data" });
 });
